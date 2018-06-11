@@ -1188,7 +1188,12 @@ function connect(port, host) {
         let completed = ssocket_helpers.createSimplePromiseCompletedAction(resolve, reject);
         try {
             let client = new Net.Socket();
+            let timer = setTimeout(() => {
+                client.destroy();
+                completed(new Error('ETIMEOUT'));
+            }, exports.TimeOut);
             client.connect(port, host, (err) => {
+                timer.cancle();
                 try {
                     if (err) {
                         completed(err);
