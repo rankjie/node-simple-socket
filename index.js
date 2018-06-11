@@ -1193,7 +1193,7 @@ function connect(port, host) {
             let timer = setTimeout(() => {
                 client.destroy();
                 completed(new Error('ETIMEOUT'));
-            }, exports.DEFAULT_TIMEOUT);
+            }, 5 * 1000);
             client.connect(port, host, (err) => {
                 clearTimeout(timer);
                 try {
