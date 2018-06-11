@@ -1193,7 +1193,7 @@ function connect(port, host) {
                 completed(new Error('ETIMEOUT'));
             }, exports.TimeOut);
             client.connect(port, host, (err) => {
-                timer.cancle();
+                timer.cancel();
                 try {
                     if (err) {
                         completed(err);
