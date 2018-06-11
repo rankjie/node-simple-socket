@@ -1195,7 +1195,7 @@ function connect(port, host) {
                 completed(new Error('ETIMEOUT'));
             }, exports.DEFAULT_TIMEOUT);
             client.connect(port, host, (err) => {
-                timer.cancel();
+                clearTimeout(timer);
                 try {
                     if (err) {
                         completed(err);
