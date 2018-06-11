@@ -33,6 +33,8 @@ const ZLib = require('zlib');
 const DEFAULT_MAX_PACKAGE_SIZE = 16777211;
 const DEFAULT_DEFAULT_READ_BUFFER_SIZE = 8192;
 const DEFAULT_RSA_KEY_SIZE = 512;
+
+exports.DEFAULT_TIMEOUT = 5 * 1000;
 /**
  * The default (string) encoding.
  */
@@ -1191,7 +1193,7 @@ function connect(port, host) {
             let timer = setTimeout(() => {
                 client.destroy();
                 completed(new Error('ETIMEOUT'));
-            }, exports.TimeOut);
+            }, exports.DEFAULT_TIMEOUT);
             client.connect(port, host, (err) => {
                 timer.cancel();
                 try {
