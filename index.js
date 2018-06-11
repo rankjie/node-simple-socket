@@ -99,6 +99,7 @@ class SimpleSocket extends Events.EventEmitter {
      */
     constructor(type, socket) {
         super();
+        this.timeout = exports.DEFAULT_TIMEOUT;
         /**
          * Try compress data or not.
          */
@@ -1185,15 +1186,16 @@ exports.SimpleSocket = SimpleSocket;
  *
  * @return {Promise<SimpleSocket>} The promise.
  */
-function connect(port, host) {
+function connect(port, host, opt) {
     return new Promise((resolve, reject) => {
         let completed = ssocket_helpers.createSimplePromiseCompletedAction(resolve, reject);
+        let timeout = (typeof opt !== "undefined" && opt !== null ? opt.timeout : void 0) || exports.DEFAULT_TIMEOUT;
         try {
             let client = new Net.Socket();
             let timer = setTimeout(() => {
                 client.destroy();
                 completed(new Error('ETIMEOUT'));
-            }, 5 * 1000);
+            }, timeout);
             client.connect(port, host, (err) => {
                 clearTimeout(timer);
                 try {
